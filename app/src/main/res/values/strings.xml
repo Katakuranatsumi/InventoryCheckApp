@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">持ち物チェックアプリ</string>
+    <string-array name="list_item">
+        <item>遠足</item>
+        <item>バーベキュー</item>
+    </string-array>
+</resources>

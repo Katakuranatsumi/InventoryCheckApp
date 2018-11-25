@@ -26,8 +26,9 @@ public class MainActivity extends AppCompatActivity {
     private class focusListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-        Toast toast = Toast.makeText(MainActivity.this, "フォーカス", Toast.LENGTH_LONG);
-        toast.show();
+//        クリックしたらカレンダーダイアログが表示される処理
+            CustomDialogFragment dialog = new CustomDialogFragment();
+            dialog.show(getSupportFragmentManager(), "sample");
     }
 }
 }

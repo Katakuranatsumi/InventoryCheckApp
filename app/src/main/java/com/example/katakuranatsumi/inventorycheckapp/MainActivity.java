@@ -8,10 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,16 +29,25 @@ public class MainActivity extends AppCompatActivity {
         ListView inventList = findViewById(R.id.inventList);
 
 //        リストビューに表示するリストビュー用Listオブジェクトを作成
-        List<String> invent_list = new ArrayList<>();
+        List<Map<String, String>> invent_list = new ArrayList<>();
 
-//          リストデータの登録
-        invent_list.add("遠足");
-        invent_list.add("スケート");
+        Map<String, String> list = new HashMap<>();
+
+//        リストデータの登録
+        list = new HashMap<>();
+        list.put("plans","遠足");
+        list.put("date", "2018年10月9日");
+        invent_list.add(list);
+
+//        SimpleAdapter第4引数from用データの用意
+        String[] from = {"plans", "date"};
+
+//        SimpleAdapter第5引数to用データの用意
+        int[] to = {android.R.id.text1, android.R.id.text2};
 
 //        アダプタオブジェクトを生成
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,
-                invent_list);
-
+        SimpleAdapter adapter = new SimpleAdapter(MainActivity.this, invent_list, android.R.layout.simple_list_item_2,
+                 from, to);
 //        リストビューにアダプタオブジェクトを生成
         inventList.setAdapter(adapter);
 

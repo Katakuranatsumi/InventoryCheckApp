@@ -1,5 +1,6 @@
 package com.example.katakuranatsumi.inventorycheckapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -56,13 +57,15 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(listener);
     }
 
-//    新規登録ボタンをクリックした時のリスナクラス
-    private class focusListener implements View.OnClickListener{
+    //    新規登録ボタンをクリックした時のリスナクラス
+    private class focusListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-//        クリックしたらカレンダーダイアログが表示される処理
-            CustomDialogFragment dialog = new CustomDialogFragment();
-            dialog.show(getSupportFragmentManager(), "sample");
+
+//          Intentオブジェクトを作成
+            Intent intent = new Intent(MainActivity.this, NewInventActivity.class);
+//          新規登録画面の起動
+            startActivity(intent);
+        }
     }
-}
 }

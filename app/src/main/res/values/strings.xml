@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name">持ち物チェックアプリ</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <!--<string name="hello_blank_fragment">Hello blank fragment</string>-->
-    <!--<string-array name="list_item">-->
-    <!--<item>遠足</item>-->
-    <!--<item>バーベキュー</item>-->
-    <!--</string-array>-->
+    <string name="newInventTitle">新規登録</string>
+    <string name="title_msg">タイトル</string>
+    <string name="date_msg">日付</string>
+    <string name="invent_msg">持ち物</string>
+    <string name="bt_save">保存</string>
 </resources>

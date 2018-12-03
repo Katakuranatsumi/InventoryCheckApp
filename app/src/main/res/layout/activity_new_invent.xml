@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".NewInventActivity">
+    tools:context=".NewInventActivity"
+    android:id="@+id/Linear_Layout">
 
     <TextView
         android:id="@+id/newInventTitle"
@@ -58,6 +59,12 @@
         android:layout_marginTop="2dp"
         android:layout_marginBottom="7dp"
         android:inputType="text" />
+
+    <ImageButton
+        android:id="@+id/add_invent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
     <Button
         android:id="@+id/bt_save"

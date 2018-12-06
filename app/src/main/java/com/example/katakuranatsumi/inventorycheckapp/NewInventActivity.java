@@ -1,8 +1,10 @@
 package com.example.katakuranatsumi.inventorycheckapp;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -10,8 +12,7 @@ import android.widget.TextView;
 
 public class NewInventActivity extends AppCompatActivity {
 
-//    private LinearLayout layout;
-//    private EditText editText;
+    Button bt_save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,10 @@ public class NewInventActivity extends AppCompatActivity {
         ImageButton addInventButton = findViewById(R.id.add_invent);
         addInventListener listener1 = new addInventListener();
         addInventButton.setOnClickListener(listener1);
-        
+
+//      保存ボタンを取得
+        bt_save = findViewById(R.id.bt_save);
+
     }
 
     private class dateListener implements View.OnClickListener{
@@ -49,4 +53,18 @@ public class NewInventActivity extends AppCompatActivity {
 //            layout.addView(editText);
         }
     }
+
+//  [保存] ボタンを押した時のイベント
+    public void onSaveButtonClick(View view){
+//        タイトル欄を取得
+        EditText titleText = findViewById(R.id.inventTitle);
+        String title = titleText.getText().toString();
+
+//        データベースヘルパーオブジェクトを作成
+        DatabaseHelper helper = new DatabaseHelper(NewInventActivity.this);
+
+//        データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
+        SQLiteDatabase db = helper.getWritableDatabase();
+    }
+
 }

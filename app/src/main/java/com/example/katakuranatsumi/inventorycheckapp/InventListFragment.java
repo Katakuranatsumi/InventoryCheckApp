@@ -2,6 +2,8 @@ package com.example.katakuranatsumi.inventorycheckapp;
 
 
 import android.app.Activity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,6 +28,12 @@ public class InventListFragment extends Fragment {
 
 //    このフラグメントが所蔵するアクティビティオブジェクト
     private Activity _parentActivity;
+    int _inventID = -1;
+
+
+    //     データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意
+    private String title = "データなし";
+    private String date = "日付なし";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +48,33 @@ public class InventListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //   データベースヘルパーオブジェクトを作成
+        DatabaseHelper helper = new DatabaseHelper(_parentActivity);
+
+//     データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+       try {
+//     主キーによる検索SQL文字列の用意
+           String sql = "SELECT * FROM inventlist WHERE _id" + _inventID;
+
+//     SQLの実行
+           Cursor cursor = db.rawQuery(sql, null);
+
+//     SQL実行の戻り値であるカーソルオブジェクトをループさせてデータベース内のデータを取得
+           while (cursor.moveToNext()) {
+//     カラムのインデックス値を取得
+               int idxTitle = cursor.getColumnIndex("title");
+//     カラムのインデックス値を元に実際のデータを取得
+               title = cursor.getString(idxTitle);
+               date = cursor.getString(idxTitle);
+           }
+
+       }finally {
+//　　　データベース接続オブジェクトの解放
+       db.close();
+
+       }
 
 //        フラグメントで表示する画面をXMLファイルからインフレートする
         View view = inflater.inflate(R.layout.fragment_invent_list, container, false);
@@ -54,8 +89,8 @@ public class InventListFragment extends Fragment {
 
 //        リストデータの登録
         list = new HashMap<>();
-        list.put("plans", "遠足");
-        list.put("date", "2018年10月9日");
+        list.put("plans", title);
+        list.put("date", date);
         invent_list.add(list);
 
 //        SimpleAdapter第4引数from用データの用意
@@ -69,7 +104,6 @@ public class InventListFragment extends Fragment {
                 from, to);
 //        リストビューにアダプタオブジェクトを生成
         inventList.setAdapter(adapter);
-
 
         // Inflate the layout for this fragment
         return view;

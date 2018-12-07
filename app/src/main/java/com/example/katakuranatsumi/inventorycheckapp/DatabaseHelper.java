@@ -24,15 +24,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE TABLE inventlist(");
         sb.append("_id INTEGER PRIMARY KEY,");
-        sb.append("name TEXT,");
-        sb.append("note TEXT");
+//        sb.append("date TEXT,");
+        sb.append("title TEXT");
         sb.append(");");
         String sql = sb.toString();
 
 //        SQLの実行
         db.execSQL(sql);
     }
-    
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
 

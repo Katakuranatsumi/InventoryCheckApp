@@ -10,12 +10,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "inventlist.db";
 
 //    バージョン情報の定数フィールド
-    private static final int DATABASE_VARSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
 //    コンストラクタ
     public DatabaseHelper(Context context) {
 //    親クラスのコンストラクタの呼び出し
-      super(context, DATABASE_NAME, null , DATABASE_VARSION);
+      super(context, DATABASE_NAME, null , DATABASE_VERSION);
     }
 
     @Override
@@ -24,8 +24,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE TABLE inventlist(");
         sb.append("_id INTEGER PRIMARY KEY,");
-//        sb.append("date TEXT,");
-        sb.append("title TEXT");
+        sb.append("title TEXT,");
+        sb.append("invent TEXT,");
+        sb.append("date TEXT");
         sb.append(");");
         String sql = sb.toString();
 

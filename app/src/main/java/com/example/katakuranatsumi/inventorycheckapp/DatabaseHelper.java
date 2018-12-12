@@ -10,7 +10,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "inventlist.db";
 
 //    バージョン情報の定数フィールド
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
 
 //    コンストラクタ
     public DatabaseHelper(Context context) {

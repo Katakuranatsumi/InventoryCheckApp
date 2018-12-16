@@ -20,7 +20,7 @@ public class NewInventActivity extends AppCompatActivity {
 
 //      日付記入欄のクリックイベントのためのリスナー作成
         dateListener listener = new dateListener();
-        EditText editDate = findViewById(R.id.inventDate);
+        EditText editDate = findViewById(R.id.inventTime);
         editDate.setOnClickListener(listener);
 
 ////      持ち物追加ボタンのクリックイベントのためのリスナー作成
@@ -57,6 +57,10 @@ public class NewInventActivity extends AppCompatActivity {
         EditText titleText = findViewById(R.id.inventTitle);
         String title = titleText.getText().toString();
 
+//        日付データを取得
+        EditText dateText = findViewById(R.id.inventTime);
+        String date = dateText.getText().toString();
+
 //        持ち物欄を取得
         EditText inventData = findViewById(R.id.newInvent);
         String invent = inventData.getText().toString();
@@ -68,34 +72,37 @@ public class NewInventActivity extends AppCompatActivity {
 //        データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
         SQLiteDatabase db = helper.getWritableDatabase();
 
+//        トランザクションの開始
+        db.beginTransaction();
+
         try {
 //        はじめに持ち物リストのデータを削除。そのあとINSERTを行う
 //        削除用SQL文字列を用意
-         String sqlDelete = "DELETE FROM inventlist WHERE _id = ?";
-
-//         for (int i = -1; i < 0; ++i) {
-
+//         String sqlDelete = "DELETE FROM inventlist WHERE _id = ?";
+//
 ////        SQL文字列を元にプリペアドステートメントを取得
-         SQLiteStatement stmt = db.compileStatement(sqlDelete);
-//        変数のバインド
-        stmt.bindLong(1, _inventID);
-        stmt.executeUpdateDelete();
+//         SQLiteStatement stmt = db.compileStatement(sqlDelete);
+////        変数のバインド
+//        stmt.bindLong(1, _inventID);
+//        stmt.executeUpdateDelete();
 
 //       インサート用SQL文字列の用意。
-         String sqlInsert = "INSERT INTO inventlist VALUES (?, ?, ?)";
+         String sqlInsert = "INSERT INTO inventlist (title, invent ,date) VALUES (?, ?, ?)";
 //       SQL文字列を元にプリペアドステートメントを取得
-         stmt = db.compileStatement(sqlInsert);
-
+         SQLiteStatement stmt = db.compileStatement(sqlInsert);
 
 //        変数のバインド
-             stmt.bindLong(1, _inventID);
-             stmt.bindString(2, title);
-             stmt.bindString(3, invent);
+            stmt.bindString(1, title);
+            stmt.bindString(2, invent);
+            stmt.bindString(3, date);
 //        インサートSQLの実行
-             stmt.executeInsert();
-//         }
+            stmt.executeInsert();
+//        トランザクションへのコミット
+            db.setTransactionSuccessful();
        }
-    finally {
+        finally {
+//        トランザクションの終了
+        db.endTransaction();
         db.close();
        }
       }

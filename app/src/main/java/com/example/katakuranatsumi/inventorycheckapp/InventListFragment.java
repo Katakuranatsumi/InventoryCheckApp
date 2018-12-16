@@ -2,18 +2,23 @@ package com.example.katakuranatsumi.inventorycheckapp;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,12 +33,16 @@ public class InventListFragment extends Fragment {
 
 //    このフラグメントが所蔵するアクティビティオブジェクト
     private Activity _parentActivity;
-    int _inventID = -1;
+    int _inventID;
 
 
     //     データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意
     private String title = "データなし";
     private String date = "日付なし";
+    private StringBuffer sb = new StringBuffer();
+
+    private List<MyListItem> items;
+    protected MyListItem myListItem;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,18 +65,35 @@ public class InventListFragment extends Fragment {
 
        try {
 //     主キーによる検索SQL文字列の用意
-           String sql = "SELECT * FROM inventlist WHERE _id" + _inventID;
+           String sql = "SELECT * FROM inventlist";
 
 //     SQLの実行
            Cursor cursor = db.rawQuery(sql, null);
+
+           int rowcount = cursor.getCount();
+           StringBuffer sb = new StringBuffer();
 
 //     SQL実行の戻り値であるカーソルオブジェクトをループさせてデータベース内のデータを取得
            while (cursor.moveToNext()) {
 //     カラムのインデックス値を取得
                int idxTitle = cursor.getColumnIndex("title");
+               int idxDate = cursor.getColumnIndex("date");
 //     カラムのインデックス値を元に実際のデータを取得
-               title = cursor.getString(idxTitle);
-               date = cursor.getString(idxTitle);
+                   title = cursor.getString(1);
+                   date = cursor.getString(3);
+
+////       MyListItemのコンストラクタ呼び出し(myListItemのオブジェクト生成)
+//         myListItem = new MyListItem(
+//          cursor.getInt(0),
+//          cursor.getString(1),
+//          cursor.getString(3));
+//
+//         Log.d("取得したCursor(ID)", String.valueOf(cursor.getInt(0)));
+//         Log.d("取得したCursor(タイトル)", cursor.getString(1));
+//         Log.d("取得したCursor（日付）", cursor.getString(3));
+//
+////       取得した要素をitemsに追加
+//         items.add(myListItem);
            }
 
        }finally {
@@ -85,13 +111,17 @@ public class InventListFragment extends Fragment {
 //        リストビューに表示するリストビュー用Listオブジェクトを作成
         List<Map<String, String>> invent_list = new ArrayList<>();
 
-        Map<String, String> list = new HashMap<>();
+        for(int i = 0; i < 3; i++) {
+
+            Map<String, String> list = new HashMap<>();
 
 //        リストデータの登録
-        list = new HashMap<>();
-        list.put("plans", title);
-        list.put("date", date);
-        invent_list.add(list);
+            list = new HashMap<>();
+            list.put("plans", title);
+            list.put("date", date);
+            invent_list.add(list);
+
+        }
 
 //        SimpleAdapter第4引数from用データの用意
         String[] from = {"plans", "date"};
@@ -99,9 +129,11 @@ public class InventListFragment extends Fragment {
 //        SimpleAdapter第5引数to用データの用意
         int[] to = {android.R.id.text1, android.R.id.text2};
 
+//        ArrayListを生成
+        items = new ArrayList<>();
+
 //        アダプタオブジェクトを生成
-        SimpleAdapter adapter = new SimpleAdapter(_parentActivity, invent_list, android.R.layout.simple_list_item_2,
-                from, to);
+        SimpleAdapter adapter = new SimpleAdapter(_parentActivity, invent_list, android.R.layout.simple_list_item_2, from, to);
 //        リストビューにアダプタオブジェクトを生成
         inventList.setAdapter(adapter);
 
@@ -110,4 +142,16 @@ public class InventListFragment extends Fragment {
 
     }
 
+//    public class MyBaseAdapter extends BaseAdapter{
+//
+//        private Context context;
+//        private List<MyListItem> items;
+//
+////      高速化のために毎回findViewByIdをせずにするholderクラス
+//
+//        private class ViewHolder{
+//          TextView
+//
+//        }
+//    }
 }

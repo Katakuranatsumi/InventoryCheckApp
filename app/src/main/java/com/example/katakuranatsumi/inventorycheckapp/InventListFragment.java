@@ -44,6 +44,7 @@ public class InventListFragment extends Fragment {
     private List<MyListItem> items;
     protected MyListItem myListItem;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -62,6 +63,7 @@ public class InventListFragment extends Fragment {
 
 //     データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
         SQLiteDatabase db = helper.getWritableDatabase();
+        items = new ArrayList<>();
 
        try {
 //     主キーによる検索SQL文字列の用意
@@ -72,16 +74,17 @@ public class InventListFragment extends Fragment {
 
            int rowcount = cursor.getCount();
            StringBuffer sb = new StringBuffer();
+           boolean isEofF = cursor.moveToFirst();
 
 //     SQL実行の戻り値であるカーソルオブジェクトをループさせてデータベース内のデータを取得
-           while (cursor.moveToNext()) {
+           while (isEofF) {
 //     カラムのインデックス値を取得
                int idxTitle = cursor.getColumnIndex("title");
                int idxDate = cursor.getColumnIndex("date");
 //     カラムのインデックス値を元に実際のデータを取得
                    title = cursor.getString(1);
                    date = cursor.getString(3);
-
+                   isEofF = cursor.moveToNext();
 ////       MyListItemのコンストラクタ呼び出し(myListItemのオブジェクト生成)
 //         myListItem = new MyListItem(
 //          cursor.getInt(0),
@@ -111,7 +114,6 @@ public class InventListFragment extends Fragment {
 //        リストビューに表示するリストビュー用Listオブジェクトを作成
         List<Map<String, String>> invent_list = new ArrayList<>();
 
-        for(int i = 0; i < 3; i++) {
 
             Map<String, String> list = new HashMap<>();
 
@@ -121,7 +123,6 @@ public class InventListFragment extends Fragment {
             list.put("date", date);
             invent_list.add(list);
 
-        }
 
 //        SimpleAdapter第4引数from用データの用意
         String[] from = {"plans", "date"};

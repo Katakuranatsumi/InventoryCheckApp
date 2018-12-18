@@ -3,6 +3,7 @@ package com.example.katakuranatsumi.inventorycheckapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -13,12 +14,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,14 +38,12 @@ public class InventListFragment extends Fragment {
     private Activity _parentActivity;
     int _inventID;
 
-
     //     データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意
     private String title = "データなし";
     private String date = "日付なし";
 
     private List<MyListItem> items;
     protected MyListItem myListItem;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +53,6 @@ public class InventListFragment extends Fragment {
 
 //      所属するアクティビティオブジェクトを取得
         _parentActivity = getActivity();
-        
     }
 
     @Override
@@ -66,6 +66,10 @@ public class InventListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_invent_list, container, false);
 //        ListViewオブジェクトを取得
         ListView inventList = view.findViewById(R.id.inventList);
+
+//        リスナクラスの登録
+        inventList.setOnItemClickListener(new ListItemClickListener());
+
 //        リストビューに表示するリストビュー用Listオブジェクトを作成
         List<Map<String, String>> invent_list = new ArrayList<>();
 
@@ -115,6 +119,17 @@ public class InventListFragment extends Fragment {
         // Inflate the layout for this fragment
         return view;
 
+        }
+
+//  リストをタップした時のリスナクラス
+    private class ListItemClickListener implements AdapterView.OnItemClickListener{
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        インテントオブジェクトを作成
+         Intent intent = new Intent(_parentActivity, ListDetailActivity.class);
+//        リスト詳細画面を起動
+         startActivity(intent);
+        }
     }
 
 }

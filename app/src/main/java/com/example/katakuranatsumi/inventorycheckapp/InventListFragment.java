@@ -104,20 +104,7 @@ public class InventListFragment extends Fragment {
                    Log.d("タイトル", title);
 
                    isEofF = cursor.moveToNext();
-////       MyListItemのコンストラクタ呼び出し(myListItemのオブジェクト生成)
-//         myListItem = new MyListItem(
-//          cursor.getInt(0),
-//          cursor.getString(1),
-//          cursor.getString(3));
-//
-//         Log.d("取得したCursor(ID)", String.valueOf(cursor.getInt(0)));
-//         Log.d("取得したCursor(タイトル)", cursor.getString(1));
-//         Log.d("取得したCursor（日付）", cursor.getString(3));
-//
-////       取得した要素をitemsに追加
-//         items.add(myListItem);
            }
-
        }finally {
 //　　　データベース接続オブジェクトの解放
        db.close();
@@ -143,16 +130,4 @@ public class InventListFragment extends Fragment {
 
     }
 
-//    public class MyBaseAdapter extends BaseAdapter{
-//
-//        private Context context;
-//        private List<MyListItem> items;
-//
-////      高速化のために毎回findViewByIdをせずにするholderクラス
-//
-//        private class ViewHolder{
-//          TextView
-//
-//        }
-//    }
 }

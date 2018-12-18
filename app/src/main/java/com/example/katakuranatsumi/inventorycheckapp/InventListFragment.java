@@ -39,7 +39,6 @@ public class InventListFragment extends Fragment {
     //     データベースから取得した値を格納する変数の用意。データがなかった時のための初期値も用意
     private String title = "データなし";
     private String date = "日付なし";
-    private StringBuffer sb = new StringBuffer();
 
     private List<MyListItem> items;
     protected MyListItem myListItem;
@@ -60,23 +59,16 @@ public class InventListFragment extends Fragment {
                              Bundle savedInstanceState) {
         //   データベースヘルパーオブジェクトを作成
         DatabaseHelper helper = new DatabaseHelper(_parentActivity);
-
 //     データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
         SQLiteDatabase db = helper.getWritableDatabase();
-
-
 //        フラグメントで表示する画面をXMLファイルからインフレートする
         View view = inflater.inflate(R.layout.fragment_invent_list, container, false);
-
 //        ListViewオブジェクトを取得
         ListView inventList = view.findViewById(R.id.inventList);
-
 //        リストビューに表示するリストビュー用Listオブジェクトを作成
         List<Map<String, String>> invent_list = new ArrayList<>();
 
-
         Map<String, String> list = new HashMap<>();
-
 
        try {
 //     主キーによる検索SQL文字列の用意
@@ -113,18 +105,14 @@ public class InventListFragment extends Fragment {
 
 //        SimpleAdapter第4引数from用データの用意
         String[] from = {"plans", "date"};
-
 //        SimpleAdapter第5引数to用データの用意
         int[] to = {android.R.id.text1, android.R.id.text2};
-
 //        ArrayListを生成
         items = new ArrayList<>();
-
 //        アダプタオブジェクトを生成
         SimpleAdapter adapter = new SimpleAdapter(_parentActivity, invent_list, android.R.layout.simple_list_item_2, from, to);
 //        リストビューにアダプタオブジェクトを生成
         inventList.setAdapter(adapter);
-
         // Inflate the layout for this fragment
         return view;
 

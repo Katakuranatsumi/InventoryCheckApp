@@ -52,6 +52,7 @@ public class InventListFragment extends Fragment {
 
 //      所属するアクティビティオブジェクトを取得
         _parentActivity = getActivity();
+        
     }
 
     @Override
@@ -107,8 +108,6 @@ public class InventListFragment extends Fragment {
         String[] from = {"plans", "date"};
 //        SimpleAdapter第5引数to用データの用意
         int[] to = {android.R.id.text1, android.R.id.text2};
-//        ArrayListを生成
-        items = new ArrayList<>();
 //        アダプタオブジェクトを生成
         SimpleAdapter adapter = new SimpleAdapter(_parentActivity, invent_list, android.R.layout.simple_list_item_2, from, to);
 //        リストビューにアダプタオブジェクトを生成

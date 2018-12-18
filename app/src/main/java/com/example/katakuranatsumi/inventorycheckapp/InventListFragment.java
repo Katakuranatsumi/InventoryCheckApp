@@ -63,7 +63,20 @@ public class InventListFragment extends Fragment {
 
 //     データベースヘルパーオブジェクトからデータベース接続オブジェクトを取得
         SQLiteDatabase db = helper.getWritableDatabase();
-        items = new ArrayList<>();
+
+
+//        フラグメントで表示する画面をXMLファイルからインフレートする
+        View view = inflater.inflate(R.layout.fragment_invent_list, container, false);
+
+//        ListViewオブジェクトを取得
+        ListView inventList = view.findViewById(R.id.inventList);
+
+//        リストビューに表示するリストビュー用Listオブジェクトを作成
+        List<Map<String, String>> invent_list = new ArrayList<>();
+
+
+        Map<String, String> list = new HashMap<>();
+
 
        try {
 //     主キーによる検索SQL文字列の用意
@@ -84,6 +97,12 @@ public class InventListFragment extends Fragment {
 //     カラムのインデックス値を元に実際のデータを取得
                    title = cursor.getString(1);
                    date = cursor.getString(3);
+                   list = new HashMap<>();
+                   list.put("plans", title);
+                   list.put("date", date);
+                   invent_list.add(list);
+                   Log.d("タイトル", title);
+
                    isEofF = cursor.moveToNext();
 ////       MyListItemのコンストラクタ呼び出し(myListItemのオブジェクト生成)
 //         myListItem = new MyListItem(
@@ -104,25 +123,6 @@ public class InventListFragment extends Fragment {
        db.close();
 
        }
-
-//        フラグメントで表示する画面をXMLファイルからインフレートする
-        View view = inflater.inflate(R.layout.fragment_invent_list, container, false);
-
-//        ListViewオブジェクトを取得
-        ListView inventList = view.findViewById(R.id.inventList);
-
-//        リストビューに表示するリストビュー用Listオブジェクトを作成
-        List<Map<String, String>> invent_list = new ArrayList<>();
-
-
-            Map<String, String> list = new HashMap<>();
-
-//        リストデータの登録
-            list = new HashMap<>();
-            list.put("plans", title);
-            list.put("date", date);
-            invent_list.add(list);
-
 
 //        SimpleAdapter第4引数from用データの用意
         String[] from = {"plans", "date"};

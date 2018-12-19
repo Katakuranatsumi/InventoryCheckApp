@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
 public class NewInventActivity extends AppCompatActivity {
 
     Button bt_save;
-    int _inventID = -1;
+    int _inventID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +46,6 @@ public class NewInventActivity extends AppCompatActivity {
         }
     }
 
-//    private class addInventListener implements View.OnClickListener{
-//
-//        @Override
-//        public void onClick(View v) {
-//            System.out.println("持ち物リスト追加");
-//        }
-//    }
-
 //  [保存] ボタンを押した時のイベント
     public void onSaveButtonClick(View view){
 //        タイトル欄を取得
@@ -76,16 +71,6 @@ public class NewInventActivity extends AppCompatActivity {
         db.beginTransaction();
 
         try {
-//        はじめに持ち物リストのデータを削除。そのあとINSERTを行う
-//        削除用SQL文字列を用意
-//         String sqlDelete = "DELETE FROM inventlist WHERE _id = ?";
-//
-////        SQL文字列を元にプリペアドステートメントを取得
-//         SQLiteStatement stmt = db.compileStatement(sqlDelete);
-////        変数のバインド
-//        stmt.bindLong(1, _inventID);
-//        stmt.executeUpdateDelete();
-
 //       インサート用SQL文字列の用意。
          String sqlInsert = "INSERT INTO inventlist (title, invent ,date) VALUES (?, ?, ?)";
 //       SQL文字列を元にプリペアドステートメントを取得
@@ -99,6 +84,13 @@ public class NewInventActivity extends AppCompatActivity {
             stmt.executeInsert();
 //        トランザクションへのコミット
             db.setTransactionSuccessful();
+
+//        Toastの設置
+            Toast toast = Toast.makeText(this, "保存が完了しました", Toast.LENGTH_LONG);
+            toast.show();
+
+//         TOP画面に戻る処理
+            finish();
        }
         finally {
 //        トランザクションの終了

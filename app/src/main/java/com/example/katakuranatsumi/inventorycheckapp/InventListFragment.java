@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -125,9 +126,30 @@ public class InventListFragment extends Fragment {
     private class ListItemClickListener implements AdapterView.OnItemClickListener{
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+         ListView listView = (ListView)parent;
+         Map<String, String> item = (Map<String, String>)listView.getItemAtPosition(position);
+
+         String title1 = item.get("plans");
+         String date1 = item.get("date");
+
+         Log.d("アイディー", String.valueOf(position));
+         Log.d("データ", item.toString());
+
+         int inventId = Integer.valueOf(position);
+
+//        引き継ぎデータをまとめて格納できるBundleオブジェクトを生成
+         Bundle bundle = new Bundle();
+
+//        Bundleオブジェクトに引き継ぎデータを格納
+         bundle.putString("title", title1);
+         bundle.putString("date", date1);
+         bundle.putInt("position", inventId);
+         
 //        インテントオブジェクトを作成
          Intent intent = new Intent(_parentActivity, ListDetailActivity.class);
-//        リスト詳細画面を起動
+////        リスト詳細画面を起動
+         intent.putExtras(bundle);
          startActivity(intent);
         }
     }
